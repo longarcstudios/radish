@@ -1,0 +1,94 @@
+{
+  "name": "Radish",
+  "version": "0.1.0",
+  "tagline": "Autonomous coding loops with safety guardrails",
+  "description": "Radish wraps autonomous AI coding sessions with blast radius control, auto-checkpoints, kill switches, and structured audit trails.",
+  "status": "alpha",
+  "repository": "https://github.com/longarcstudios/radish",
+  "organization": "Long Arc Studios",
+  "website": "https://longarcstudios.com",
+  "license": "MIT",
+  "features": [
+    {
+      "name": "Blast Radius Control",
+      "description": "Restrict which files and directories agents can modify",
+      "status": "implemented"
+    },
+    {
+      "name": "Auto-Checkpoints",
+      "description": "Git commits at configurable intervals for easy rollback",
+      "status": "implemented"
+    },
+    {
+      "name": "Kill Switches",
+      "description": "Automatic termination on violation or timeout",
+      "status": "implemented"
+    },
+    {
+      "name": "Structured Audit Trails",
+      "description": "Every action logged in JSON format for review",
+      "status": "implemented"
+    },
+    {
+      "name": "Cost Limits",
+      "description": "Stop before burning through API budget",
+      "status": "planned"
+    },
+    {
+      "name": "Violation Detection",
+      "description": "Real-time monitoring for forbidden operations",
+      "status": "implemented"
+    },
+    {
+      "name": "Multi-Agent Support",
+      "description": "Integration with Claude, Cursor, Aider, and more",
+      "status": "in-progress"
+    }
+  ],
+  "target_users": [
+    "Developers using autonomous coding agents",
+    "Teams deploying AI-assisted development workflows",
+    "Organizations requiring audit trails for AI operations"
+  ],
+  "use_cases": [
+    "Overnight feature development with safety nets",
+    "Autonomous bug fixing with rollback capability",
+    "AI-assisted refactoring with change limits",
+    "Compliance-ready AI coding workflows"
+  ],
+  "integrations": {
+    "supported": ["claude-code"],
+    "planned": ["cursor", "aider", "github-copilot-workspace"]
+  },
+  "requirements": {
+    "os": ["macOS", "Linux"],
+    "dependencies": ["bash 4+", "git", "python3 (optional)"]
+  },
+  "roadmap": [
+    {
+      "version": "0.1",
+      "milestone": "Core guardrails and checkpointing",
+      "status": "current"
+    },
+    {
+      "version": "0.2",
+      "milestone": "Multi-agent integrations",
+      "status": "planned"
+    },
+    {
+      "version": "0.3",
+      "milestone": "Web dashboard for session review",
+      "status": "planned"
+    },
+    {
+      "version": "1.0",
+      "milestone": "Production-ready with enterprise features",
+      "status": "planned"
+    }
+  ],
+  "metrics": {
+    "github_stars": 0,
+    "downloads": 0,
+    "contributors": 1
+  }
+}

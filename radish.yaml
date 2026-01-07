@@ -1,0 +1,81 @@
+# Radish Configuration
+# Copy to radish.yaml and customize for your project
+
+session:
+  name: "autonomous-session"
+  timeout: 3600                    # Max session duration in seconds (1 hour)
+  checkpoint_interval: 300         # Auto-commit every 5 minutes
+  working_directory: "."           # Directory to monitor
+
+guardrails:
+  # Paths the agent IS allowed to modify (glob patterns)
+  allowed_paths:
+    - "src/**"
+    - "lib/**"
+    - "tests/**"
+    - "docs/**"
+    - "*.md"
+    - "*.json"
+    - "*.yaml"
+    - "*.yml"
+
+  # Paths the agent is NEVER allowed to modify
+  forbidden_paths:
+    - ".env"
+    - ".env.*"
+    - "*.pem"
+    - "*.key"
+    - "secrets/**"
+    - "credentials/**"
+    - ".git/**"
+    - "node_modules/**"
+    - "vendor/**"
+
+  # Commands that trigger immediate violation
+  forbidden_commands:
+    - "rm -rf /"
+    - "rm -rf ~"
+    - "rm -rf *"
+    - "DROP DATABASE"
+    - "DROP TABLE"
+    - "TRUNCATE"
+    - "format c:"
+    - "mkfs"
+    - "> /dev/sda"
+
+  # Patterns in file content that trigger warnings
+  forbidden_patterns:
+    - "password\\s*=\\s*['\"][^'\"]+['\"]"
+    - "api_key\\s*=\\s*['\"][^'\"]+['\"]"
+    - "secret\\s*=\\s*['\"][^'\"]+['\"]"
+
+limits:
+  max_files_changed: 50            # Max files modified in one session
+  max_lines_changed: 2000          # Max total lines changed
+  max_single_file_lines: 500       # Max lines changed in single file
+  max_cost_usd: 10.00              # API cost limit (if trackable)
+  max_api_calls: 1000              # Max API calls per session
+
+behavior:
+  on_violation: "stop"             # stop | warn | checkpoint-and-continue
+  on_timeout: "checkpoint"         # checkpoint | rollback | continue
+  on_cost_limit: "stop"            # stop | warn
+  require_confirmation: false      # Require user confirmation for risky ops
+
+checkpoints:
+  enabled: true
+  commit_message_prefix: "[radish]"
+  include_session_metadata: true
+  push_to_remote: false            # Auto-push checkpoints
+
+logging:
+  level: "info"                    # debug | info | warn | error
+  output_dir: "logs"
+  structured_json: true
+  include_file_diffs: true
+
+notifications:
+  enabled: false
+  on_violation: true
+  on_complete: true
+  webhook_url: ""                  # Optional webhook for notifications

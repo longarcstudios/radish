@@ -1,0 +1,51 @@
+# Radish Development Progress
+
+## v0.1.0 - Initial Release
+
+### Completed
+- [x] Core bash script (radish.sh)
+- [x] YAML configuration support
+- [x] Session initialization and metadata
+- [x] Auto-checkpoint system (git-based)
+- [x] Violation detection framework
+- [x] Forbidden paths checking
+- [x] Forbidden commands checking
+- [x] Secret detection in code
+- [x] File/line change limits
+- [x] Session logging (JSON + plaintext)
+- [x] Summary generation
+- [x] Claude Code integration (basic)
+- [x] Documentation (README, CONTRIBUTING)
+
+### In Progress
+- [ ] Cursor integration
+- [ ] Aider integration
+- [ ] Cost tracking (API calls)
+- [ ] Webhook notifications
+
+### Planned
+- [ ] Web dashboard for session review
+- [ ] Real-time file watching
+- [ ] Interactive mode (confirm risky operations)
+- [ ] Team/org configurations
+- [ ] Integration with mdash for audit trails
+
+---
+
+## Notes
+
+### 2024-01-15
+- Initial project setup
+- Core guardrails implemented
+- Basic Claude Code integration working
+
+### Next Steps
+1. Test with real autonomous coding sessions
+2. Gather feedback from early users
+3. Add more agent integrations
+4. Build web dashboard for session review
+
+---
+
+Maintained by Long Arc Studios
+https://longarcstudios.com

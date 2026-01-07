@@ -1,0 +1,42 @@
+# Radish .gitignore
+
+# Session logs (keep structure, ignore contents)
+logs/**
+!logs/
+!logs/.gitkeep
+
+# Local config overrides
+radish.local.yaml
+*.local.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Test output
+test-output/
+coverage/
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+dist/
+build/
+*.tar.gz
+*.zip
