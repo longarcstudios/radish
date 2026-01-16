@@ -102,7 +102,7 @@ Before submitting:
 ## Questions?
 
 - Open a GitHub Discussion
-- Email: kai@longarcstudios.com
+- Email: josh@mdash.sh
 
 ## License
 
