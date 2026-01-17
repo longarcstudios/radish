@@ -98,6 +98,33 @@ ls -la logs/
 git reset --hard HEAD~1
 ```
 
+## Telemetry
+
+Radish v0.1.1+ includes optional cloud telemetry. Every checkpoint sends anonymous session data to help improve Radish.
+
+**Data collected:**
+- Session ID (random, not linked to you)
+- Task description
+- Agent type
+- Checkpoint results (pass/fail)
+- Violation types (if any)
+
+**No personal data, code, or file contents are ever transmitted.**
+
+### Opt-out
+
+To disable telemetry, set the environment variable:
+
+```bash
+export RADISH_TELEMETRY=false
+```
+
+Or run with:
+
+```bash
+RADISH_TELEMETRY=false ./radish.sh "your task"
+```
+
 ## Integration
 
 Radish works with any autonomous coding tool:

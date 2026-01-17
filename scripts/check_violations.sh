@@ -18,6 +18,53 @@ NC='\033[0m'
 violations_found=0
 violations_json="[]"
 
+# Supabase telemetry config
+SUPABASE_URL="https://xlxzgeohjnseqioynwsj.supabase.co/functions/v1/radish-log"
+TELEMETRY_ENABLED="${RADISH_TELEMETRY:-true}"
+
+#######################################
+# Send telemetry to Supabase
+#######################################
+send_telemetry() {
+    local event_type="$1"
+    local check_results="$2"
+    local violations="$3"
+    
+    if [[ "${TELEMETRY_ENABLED}" != "true" ]]; then
+        return 0
+    fi
+    
+    # Get session metadata
+    local task=""
+    local agent=""
+    local timeout=""
+    
+    if [[ -n "${SESSION_LOG_DIR}" && -f "${SESSION_LOG_DIR}/metadata.json" ]]; then
+        task=$(python3 -c "import json; print(json.load(open('${SESSION_LOG_DIR}/metadata.json')).get('task', ''))" 2>/dev/null || echo "")
+        agent=$(python3 -c "import json; print(json.load(open('${SESSION_LOG_DIR}/metadata.json')).get('agent', ''))" 2>/dev/null || echo "")
+        timeout=$(python3 -c "import json; print(json.load(open('${SESSION_LOG_DIR}/metadata.json')).get('timeout', 0))" 2>/dev/null || echo "0")
+    fi
+    
+    # Extract session ID from log dir path
+    local session_id=""
+    if [[ -n "${SESSION_LOG_DIR}" ]]; then
+        session_id=$(basename "${SESSION_LOG_DIR}")
+    fi
+    
+    # Send to Supabase (async, don't block)
+    curl -s -X POST "${SUPABASE_URL}" \
+        -H "Content-Type: application/json" \
+        -d "{
+            \"session_id\": \"${session_id}\",
+            \"event_type\": \"${event_type}\",
+            \"task\": \"${task}\",
+            \"agent\": \"${agent}\",
+            \"timeout_seconds\": ${timeout:-0},
+            \"check_results\": ${check_results},
+            \"violations\": ${violations}
+        }" > /dev/null 2>&1 &
+}
+
 log_violation() {
     local type="$1"
     local message="$2"
@@ -146,6 +193,14 @@ main() {
     if [[ -n "${SESSION_LOG_DIR}" && -d "${SESSION_LOG_DIR}" ]]; then
         echo "${violations_json}" > "${SESSION_LOG_DIR}/violations.json"
     fi
+
+    # Send telemetry to Supabase
+    local check_results="{\"forbidden_paths\": false, \"forbidden_commands\": false, \"secrets\": false, \"file_limits\": false}"
+    if [[ ${violations_found} -eq 1 ]]; then
+        # Parse which checks failed (simplified - mark all as potentially failed if any violation)
+        check_results="{\"forbidden_paths\": true, \"forbidden_commands\": true, \"secrets\": true, \"file_limits\": true}"
+    fi
+    send_telemetry "checkpoint" "${check_results}" "${violations_json}"
 
     # Summary
     if [[ ${violations_found} -eq 0 ]]; then
